@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes, Op) => {
     const User = sequelize.define(
         'user',
         {
-            // To avoid auto increment id (add id to model)
+            // To avoid auto increment id (add id to model, sequelize adds the id automatically)
             // user_id: {
             //     type: DataTypes.INTEGER,
             //     primaryKey: true,
@@ -30,17 +30,17 @@ module.exports = (sequelize, DataTypes, Op) => {
             age: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                defaultValue: 21
+                defaultValue: 21,
             },
             agree_terms: {
                 type: DataTypes.BOOLEAN,
-                defaultValue: true
+                defaultValue: true,
             },
         },
         {
-            // Avoid pluralization in DB 
+            // Avoid pluralization in DB
             // freezeTableName: true
-            // Avoid timestamps 
+            // Avoid timestamps
             // timestamps: false
         }
     );

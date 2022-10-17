@@ -23,7 +23,7 @@ app.use(express.urlencoded({extended: true}));
 // Serving static files (css, images etc.)
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-app.use('/api/user', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/review', reviewRoutes);
 
