@@ -28,8 +28,8 @@ db.users = require('./user.model.js')(sequelize, DataTypes, Op);
 
 (async () => {
     try {
-        // await db.sequelize.sync();
-        await db.sequelize.sync({alter: true});
+        await db.sequelize.sync();
+        // await db.sequelize.sync({alter: true});
         // db.sequelize.sync({force: true});
 
         // --------------------------MODEL INSTANCES --------------------------
@@ -89,28 +89,28 @@ db.users = require('./user.model.js')(sequelize, DataTypes, Op);
         //     [
         //         {
         //             username: 'Darren Nienaber',
-        //             email: 'test@gmail.com',
+        //             email: 'test4@gmail.com',
         //             password: '1234',
         //             age: 36,
         //             agree_terms: true,
         //         },
         //         {
         //             username: 'Mark Nienaber',
-        //             email: 'test1@gmail.com',
+        //             email: 'test5@gmail.com',
         //             password: '1234',
         //             age: 39,
         //             agree_terms: true,
         //         },
         //         {
         //             username: 'Eric Nienaber',
-        //             email: 'test2@gmail.com',
+        //             email: 'test6@gmail.com',
         //             password: '1234',
         //             age: 65,
         //             agree_terms: true,
         //         },
         //         {
         //             username: 'Rowena Nienaber',
-        //             email: 'test3@gmail.com',
+        //             email: 'test7@gmail.com',
         //             password: '1234',
         //             age: 60,
         //             agree_terms: true,
