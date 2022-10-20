@@ -64,7 +64,7 @@ db.users = require('./user.model.js')(sequelize, DataTypes, Op);
         // (we can update the returned object inserted with save() as a shorthand)
         // const user = await db.users.create({
         //     username: 'Vern',
-        //     email: 'test4@gmail.com',
+        //     email: 'test8@gmail.com',
         //     password: '1234',
         //     age: 30,
         //     agree_terms: true,

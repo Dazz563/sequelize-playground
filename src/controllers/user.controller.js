@@ -9,6 +9,7 @@ const {Op} = require('sequelize');
 exports.getUsers = async (req, res, next) => {
     try {
         const users = await User.findAll();
+        // const users = await User.findAll({raw: true});
 
         return res.status(200).json({
             message: 'All users',
@@ -159,7 +160,86 @@ exports.getUsersAgeSummedGroupByName = async (req, res, next) => {
     }
 };
 
-// --------------------------QUERY OPERATORS --------------------------
+// -------------------------- MORE FINDER METHODS ---------------------
+// find user by id
+exports.getUserById = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const user = await User.findByPk(id);
+
+        return res.status(200).json({
+            message: `User with id: ${id}`,
+            data: user,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// findOne user by condition
+exports.getUserByCondition = async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            where: {
+                age: {
+                    [Op.or]: {
+                        [Op.lt]: 40,
+                        [Op.eq]: 36,
+                    },
+                },
+            },
+        });
+
+        return res.status(200).json({
+            message: `User with condition`,
+            data: user,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// findOrCreate method
+exports.findUserOrCreate = async (req, res, next) => {
+    try {
+        const user = await User.findOrCreate({
+            where: {
+                username: 'Terrible t-rex',
+            },
+        });
+
+        return res.status(200).json({
+            message: `Find Or Create method`,
+            data: user,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// findAndCountAll method
+exports.findAndCountAll = async (req, res, next) => {
+    try {
+        const user = await User.findAndCountAll({
+            where: {
+                age: 36,
+            },
+        });
+
+        return res.status(200).json({
+            message: `Find and count age 36`,
+            data: user,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// -------------------------- QUERY OPERATORS --------------------------
 // Or operator
 exports.getUsersNamedEricOrAge36 = async (req, res, next) => {
     try {
@@ -331,3 +411,47 @@ exports.deleteAllUsers = async (req, res, next) => {
 };
 
 // --------------------------UTILITY FUNCTIONS --------------------------
+// max() returns the record with the highest maximumn (single record NOT SUM)
+exports.getMaxAge = async (req, res, next) => {
+    try {
+        const maxResult = await User.max('age');
+
+        return res.status(200).json({
+            message: 'Max age in record',
+            data: maxResult,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// min() returns the record with the lowest maximumn (single record NOT SUM)
+exports.getMinAge = async (req, res, next) => {
+    try {
+        const maxResult = await User.min('age');
+
+        return res.status(200).json({
+            message: 'Min age in record',
+            data: maxResult,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// sum() returns the SUMMED records
+exports.getSumAge = async (req, res, next) => {
+    try {
+        const maxResult = await User.sum('age');
+
+        return res.status(200).json({
+            message: 'Summed ages in record',
+            data: maxResult,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
