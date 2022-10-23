@@ -21,6 +21,9 @@ const {
     getUserByCondition,
     findUserOrCreate,
     findAndCountAll,
+    forceDelete,
+    restoreDelete,
+    getAllUsersIncludingSoftDeleted,
 } = require('../controllers/user.controller');
 
 const express = require('express');
@@ -54,5 +57,9 @@ userRoutes.get('/delete-all-users', deleteAllUsers);
 userRoutes.get('/max-age', getMaxAge);
 userRoutes.get('/min-age', getMinAge);
 userRoutes.get('/sum-age', getSumAge);
+// -------------------------- PARANOID TABLES -----------------------
+userRoutes.get('/force-delete-by-name', forceDelete);
+userRoutes.get('/restore-delete-by-name', restoreDelete);
+userRoutes.get('/users-including-soft-deleted', getAllUsersIncludingSoftDeleted);
 
 module.exports = userRoutes;

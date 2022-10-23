@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt');
-const {get} = require('http');
 const zlib = require('zlib');
 
-module.exports = (sequelize, DataTypes, Op) => {
+module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
         'user',
         {
@@ -26,9 +25,13 @@ module.exports = (sequelize, DataTypes, Op) => {
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: true,
+                // unique: true,
                 validate: {
                     isEmail: true,
+                    // isIn: {
+                    //     args: ['me@soccer.org', 'me@soccer.com'],
+                    //     msg: 'The provided email must be one of the following',
+                    // },
                 },
             },
             password: {
@@ -45,6 +48,16 @@ module.exports = (sequelize, DataTypes, Op) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 21,
+                validate: {
+                    // isOldEnough(value) {
+                    //     if (value > 21) {
+                    //         throw new Error('Too young to sign up');
+                    //     }
+                    // },
+                    isNumeric: {
+                        msg: 'You must enter a number for age',
+                    },
+                },
             },
             agree_terms: {
                 type: DataTypes.BOOLEAN,
@@ -75,6 +88,17 @@ module.exports = (sequelize, DataTypes, Op) => {
             // freezeTableName: true
             // Avoid timestamps
             // timestamps: false
+            // Paranoid tables
+            paranoid: true,
+
+            //MODEL WIDE VALIDATION
+            validate: {
+                usernamePasswordMatch() {
+                    if (this.username === this.password) {
+                        throw new Error('Password cannot be your username');
+                    }
+                },
+            },
         }
     );
 

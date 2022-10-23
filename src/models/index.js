@@ -22,9 +22,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // MODELS
-db.users = require('./user.model.js')(sequelize, DataTypes, Op);
-// db.products = require('./product.model.js')(sequelize, DataTypes, Op);
-// db.reviews = require('./review.model.js')(sequelize, DataTypes, Op);
+db.users = require('./user.model.js')(sequelize, DataTypes);
+db.countries = require('./country.model.js')(sequelize, DataTypes);
+db.capitals = require('./capital.model.js')(sequelize, DataTypes);
 
 (async () => {
     try {
@@ -131,7 +131,16 @@ db.users = require('./user.model.js')(sequelize, DataTypes, Op);
 })();
 
 // Relations
-// 1 to Many
-// db.products.hasMany(db.reviews);
-// db.reviews.belongsTo(db.products);
+// One to One association
+/*
+    - Association where primary key from parent table apprears in foreign key column on child table.
+    - Created with hasOne() and belongsTo(). 
+    - Child table - table WITH foreign key CAN'T survive on its own.
+    - Parent table - table whose primary key is being referenced by the child table.
+*/
+db.countries.hasOne(db.capitals, {onDelete: 'CASCADE'});
+// hasOne() creates utility functions setCapital(), getCapital(), createCapital()
+db.capitals.belongsTo(db.countries, {onDelete: 'CASCADE'});
+// belongsTo() creates utility functions setCountry(), getCountry(), createCountry()
+
 module.exports = db;

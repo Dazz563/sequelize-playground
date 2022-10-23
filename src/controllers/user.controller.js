@@ -379,7 +379,7 @@ exports.deleteUserByName = async (req, res, next) => {
     try {
         const destroyResult = await User.destroy({
             where: {
-                username: 'Little Darren Nienaber',
+                username: 'Darren Nienaber',
             },
         });
 
@@ -449,6 +449,64 @@ exports.getSumAge = async (req, res, next) => {
         return res.status(200).json({
             message: 'Summed ages in record',
             data: maxResult,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// -------------------------- PARANOID TABLES --------------------------
+
+// force: true will HARD delete your record if paranoid is set to true
+exports.forceDelete = async (req, res, next) => {
+    try {
+        const destroyResult = await User.destroy({
+            where: {
+                username: 'Rowena Nienaber',
+            },
+            force: true,
+        });
+
+        return res.status(200).json({
+            message: 'User deleted',
+            data: destroyResult,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// restore soft deleted (will null the deletedAt column)
+exports.restoreDelete = async (req, res, next) => {
+    try {
+        const destroyResult = await User.restore({
+            where: {
+                username: 'Darren Nienaber',
+            },
+        });
+
+        return res.status(200).json({
+            message: 'User restored',
+            data: destroyResult,
+        });
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+};
+
+// get ALL users including soft deleted users
+exports.getAllUsersIncludingSoftDeleted = async (req, res, next) => {
+    try {
+        const users = await User.findAll({
+            paranoid: false,
+        });
+
+        return res.status(200).json({
+            message: 'All users including soft deleted',
+            data: users,
         });
     } catch (err) {
         console.log(err);

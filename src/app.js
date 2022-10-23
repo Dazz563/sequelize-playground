@@ -4,8 +4,7 @@ const app = express();
 const cors = require('cors');
 
 const userRoutes = require('./routes/user.routes');
-const productRoutes = require('./routes/product.routes');
-const reviewRoutes = require('./routes/review.routes');
+const countryRoutes = require('./routes/country.routes');
 
 // MIDDLEWARE START
 
@@ -24,7 +23,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api', userRoutes);
-app.use('/api/product', productRoutes);
-app.use('/api/review', reviewRoutes);
+app.use('/api/country', countryRoutes);
 
 module.exports = app;
