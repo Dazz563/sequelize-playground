@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const userRoutes = require('./routes/user.routes');
 const countryRoutes = require('./routes/country.routes');
+const postRoutes = require('./routes/post.routes');
 
 // MIDDLEWARE START
 
@@ -24,5 +25,6 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api', userRoutes);
 app.use('/api/country', countryRoutes);
+app.use('/api/post', postRoutes);
 
 module.exports = app;
