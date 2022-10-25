@@ -26,6 +26,9 @@ db.users = require('./user.model.js')(sequelize, DataTypes);
 db.countries = require('./country.model.js')(sequelize, DataTypes);
 db.capitals = require('./capital.model.js')(sequelize, DataTypes);
 db.posts = require('./post.model.js')(sequelize, DataTypes);
+db.customer = require('./customer.model.js')(sequelize, DataTypes);
+db.product = require('./product.model.js')(sequelize, DataTypes);
+db.customerProduct = require('./customer-product.model.js')(sequelize, DataTypes);
 
 (async () => {
     try {
@@ -157,5 +160,20 @@ db.users.hasMany(db.posts, {onDelete: 'CASCADE'});
 // hasMany() creates utility functions addPosts(), countPosts(), removePost() removePosts()
 db.posts.belongsTo(db.users, {onDelete: 'CASCADE'});
 // belongsTo() creates utility functions setUser(), getUser(), createUser()
+
+// ---------------------------------------------------------------------------------------------------
+// Many to Many association
+/*
+    - Association where a child table (join table) contains two foreign key columns referencing the 
+      the primary keycolumn of the two parent tables.
+    - Each foreign key column can contain multiple occurences of each foreign key.
+    - Created with belongsToMany() and belongsToMany(). 
+    - Child table - table WITH foreign key CAN'T survive on its own.
+    - Parent table - table whose primary key is being referenced by the child table.
+*/
+db.customer.belongsToMany(db.product, {through: db.customerProduct});
+// belongsToMany() creates utility functions addProducts(), countProducts(), removeProduct() removeProducts()
+db.product.belongsToMany(db.customer, {through: db.customerProduct});
+// belongsToMany() creates utility functions addCustomers(), countCustomers(), removeCustomer() removeCustomers()
 
 module.exports = db;
